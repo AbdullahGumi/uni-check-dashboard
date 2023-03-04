@@ -21,31 +21,22 @@ const CustomTableCell = ({ children, className }) => (
     align="left"
     className={className}
   >
-    <span className="text-[#808080] font-medium uppercase">{children}</span>
+    <span className="text-black font-semibold text-xs uppercase">
+      {children}
+    </span>
   </TableCell>
 );
 
-const AttendanceTable = () => {
-  const [attendance, setAttendance] = useState<
-    {
-      fullName: "";
-      registrationNumber: "";
-      phoneNumber: "";
-      time: "";
-    }[]
-  >([]);
+interface IProps {
+  attendance: {
+    fullName: string;
+    registrationNumber: string;
+    phoneNumber: string;
+    time: string;
+  }[];
+}
 
-  useEffect(() => {
-    setAttendance(
-      Array(189).fill({
-        fullName: "abdullah Ahmad Gumi ",
-        phoneNumber: "08135524649",
-        registrationNumber: "u17cs1097",
-        time: "9:30AM",
-      })
-    );
-  }, []);
-
+const AttendanceTable = ({ attendance }: IProps) => {
   const [search, setSearch] = useState("");
 
   const [page, setPage] = useState(1);
@@ -91,7 +82,11 @@ const AttendanceTable = () => {
           <TableHead>
             <TableRow>
               {tableHeaderCells.map((item) => (
-                <TableCell style={{ borderBottom: "none" }} align="left">
+                <TableCell
+                  key={item}
+                  style={{ borderBottom: "none" }}
+                  align="left"
+                >
                   <span className="text-base text-black font-semibold">
                     {item}
                   </span>
