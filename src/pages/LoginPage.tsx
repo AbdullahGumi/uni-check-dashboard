@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Button from "../components/Button";
 import Input from "../components/Input";
@@ -7,6 +7,7 @@ import Input from "../components/Input";
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   return (
     <div className="flex-1 bg-white flex flex-col justify-center min-h-screen overflow-hidden">
@@ -23,7 +24,9 @@ function LoginPage() {
             setValue={setPassword}
           />
           <div className="mt-6">
-            <Button>Login</Button>
+            <Button onClick={() => navigate("/dashboard/attendance")}>
+              Login
+            </Button>
           </div>
         </form>
 

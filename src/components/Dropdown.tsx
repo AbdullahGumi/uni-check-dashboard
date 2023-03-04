@@ -17,13 +17,14 @@ export default function Dropdown({
   setValue,
   items,
   helperText,
-}: IProps) {
+  ...otherProps
+}: IProps & React.HTMLAttributes<HTMLDivElement>) {
   const handleChange = (selectedOption: any) => {
     setValue({ label: selectedOption.label, value: selectedOption.value });
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" {...otherProps}>
       <Select
         styles={{
           option: (styles) => {
@@ -45,7 +46,7 @@ export default function Dropdown({
           IndicatorSeparator: () => null,
         }}
       />
-      <span className="text-black font-semibold text-sm mt-1">
+      <span className="text-black font-semibold text-xs mt-1">
         {helperText}
       </span>
     </div>

@@ -9,11 +9,13 @@ import {
   InputAdornment,
   Pagination,
 } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import SearchIcon from "@mui/icons-material/Search";
+import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
+import Button from "./Button";
 
 const CustomTableCell = ({ children, className }) => (
   <TableCell
@@ -52,19 +54,32 @@ const AttendanceTable = ({ attendance }: IProps) => {
   return (
     <div className="flex flex-col py-10">
       <>
-        <div className="ml-auto rounded-[10px] bg-[#f6f8fa] w-full md:w-[312px] h-[45px]">
-          <InputBase
-            onChange={(e) => setSearch(e.target.value)}
-            value={search}
-            startAdornment={
-              <InputAdornment position="start">
-                <SearchIcon sx={{ color: "black" }} />
-              </InputAdornment>
-            }
-            type="text"
-            className="w-full h-full border-none outline-none bg-transparent py-0 px-[21px] text-[#808080]"
-            placeholder="Search"
-          />
+        <div className="flex justify-between items-center w-full">
+          <div className="rounded-[10px] bg-[#f6f8fa] w-full md:w-[312px] h-[45px]">
+            <InputBase
+              onChange={(e) => setSearch(e.target.value)}
+              value={search}
+              startAdornment={
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ color: "black" }} />
+                </InputAdornment>
+              }
+              type="text"
+              className="w-full h-full border-none outline-none bg-transparent py-0 px-[21px] text-[#808080]"
+              placeholder="Search"
+            />
+          </div>
+          <Button
+            style={{
+              backgroundColor: "#f5cdcd",
+              color: "red",
+              fontWeight: "bold",
+              width: "200px",
+            }}
+          >
+            Delete Attendance
+            <DeleteForeverOutlinedIcon />
+          </Button>
         </div>
 
         <div className="flex items-center mt-8 mb-3">
