@@ -16,6 +16,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import SearchIcon from "@mui/icons-material/Search";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import Button from "./Button";
+import CustomModal from "./CustomModal";
 
 const CustomTableCell = ({ children, className }) => (
   <TableCell
@@ -40,6 +41,7 @@ interface IProps {
 
 const AttendanceTable = ({ attendance }: IProps) => {
   const [search, setSearch] = useState("");
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const [page, setPage] = useState(1);
   const itemsPerPage = 8;
@@ -70,6 +72,7 @@ const AttendanceTable = ({ attendance }: IProps) => {
             />
           </div>
           <Button
+            onClick={() => setModalOpen(true)}
             style={{
               backgroundColor: "#f5cdcd",
               color: "red",
@@ -181,6 +184,7 @@ const AttendanceTable = ({ attendance }: IProps) => {
           </div>
         </div>
       </>
+      <CustomModal open={isModalOpen} setOpen={setModalOpen} />
     </div>
   );
 };

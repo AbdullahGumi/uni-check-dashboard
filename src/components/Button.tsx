@@ -11,7 +11,7 @@ function Button({ children, disabled, isLoading, ...props }: ButtonProps) {
   return (
     <button
       {...props}
-      className={`w-full px-4 py-2 text-white bg-black rounded-md hover:bg-slate-400 focus:outline-none justify-center items-center flex ${
+      className={`w-full h-10 px-4 py-2 text-white bg-black rounded-md hover:bg-slate-400 focus:outline-none justify-center items-center flex ${
         disabled && "hover:bg-black"
       }`}
     >

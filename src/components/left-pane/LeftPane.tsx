@@ -23,6 +23,10 @@ function LeftPane() {
       <div className="rounded-3xl shadow-2xl h-full w-full flex flex-col items-start justify-start p-5">
         {items.map(({ name, route, icon }, i, { length }) => (
           <NavLink
+            onClick={() =>
+              name.toLowerCase().includes("logout") &&
+              localStorage.removeItem("token")
+            }
             key={name}
             to={route}
             className={({ isActive }) =>
