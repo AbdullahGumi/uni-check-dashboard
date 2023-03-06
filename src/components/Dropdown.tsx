@@ -38,6 +38,13 @@ export default function Dropdown({
               },
             };
           },
+          menuList: (base) => ({
+            ...base,
+
+            "::-webkit-scrollbar": {
+              width: "0px",
+            },
+          }),
         }}
         placeholder={label}
         options={items}

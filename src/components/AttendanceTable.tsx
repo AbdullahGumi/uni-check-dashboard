@@ -86,7 +86,7 @@ const AttendanceTable = ({ attendance }: IProps) => {
         </div>
 
         <div className="flex items-center mt-8 mb-3">
-          <span className="text-base text-black font-medium ml-[.5rem] uppercase">
+          <span className="text-base text-black font-semibold ml-[.5rem] uppercase">
             {attendance.length} Attendees
           </span>
         </div>

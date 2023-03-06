@@ -8,6 +8,7 @@ import Dropdown from "../../components/Dropdown";
 import Input from "../../components/Input";
 
 function LecturePage() {
+  const [lectureId, setLectureId] = useState("");
   const [courseCode, setCourseCode] = useState("");
   const [courseName, setCourseName] = useState("");
   const [validityPeriod, setvalidityPeriod] = useState("");
@@ -28,6 +29,7 @@ function LecturePage() {
       validityPeriod,
     })
       .then((res) => {
+        setLectureId(res.lectureId);
         setLoading(false);
         setShowQRCode(true);
       })
@@ -61,7 +63,7 @@ function LecturePage() {
             >
               <QRCode
                 style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                value={"value"}
+                value={JSON.stringify({ lectureId })}
               />
               <p
                 id="qrText"

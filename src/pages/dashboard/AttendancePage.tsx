@@ -4,6 +4,10 @@ import { CSVLink } from "react-csv";
 
 import Dropdown from "../../components/Dropdown";
 import AttendanceTable from "../../components/AttendanceTable";
+import {
+  getAllAdminLecturesAPI,
+  getLectureAttendaceAPI,
+} from "../../api/lectureApi";
 
 const headers = [
   { label: "Full Name", key: "fullName" },
@@ -21,7 +25,39 @@ function AttendancePage() {
       time: "";
     }[]
   >([]);
+  const [selectedLecture, setSelectedLecture] = useState<{
+    value: string | number;
+    label: string;
+  }>({ value: "", label: "" });
+  const [dropdownItems, setDropdownItems] = useState([]);
+
   useEffect(() => {
+    getAllAdminLecturesAPI().then((res) => {
+      const courses = res.map((item: any) => {
+        return {
+          courseCode: item.courseCode,
+          lectureId: item.lectureId,
+        };
+      });
+      const objArr = courses.map(
+        ({
+          courseCode,
+          lectureId,
+        }: {
+          courseCode: string;
+          lectureId: string;
+        }) => {
+          return {
+            label: courseCode.toUpperCase(),
+            value: lectureId,
+          };
+        }
+      );
+      setDropdownItems(objArr);
+    });
+    getLectureAttendaceAPI(selectedLecture.value as string)
+      .then((res) => console.log("res=========>", res))
+      .catch((err) => console.log("first", err));
     setAttendance(
       Array(189).fill({
         fullName: "abdullah Ahmad Gumi ",
@@ -31,10 +67,7 @@ function AttendancePage() {
       })
     );
   }, []);
-  const [selected, setSelected] = useState<{
-    value: string | number;
-    label: string;
-  }>({ value: "", label: "" });
+
   return (
     <div className="flex flex-1  min-h-screen max-w-7xl p-5  ">
       <div className="bg-white shadow-2xl w-full rounded-3xl p-5">
@@ -42,11 +75,8 @@ function AttendancePage() {
           <Dropdown
             helperText="Choose Lecture"
             label="Lecture"
-            setValue={setSelected}
-            items={[
-              { label: "cosc401", value: "cosc401" },
-              { label: "cosc403", value: "cosc403" },
-            ]}
+            setValue={setSelectedLecture}
+            items={dropdownItems}
           />
           <CSVLink
             data={attendance}
