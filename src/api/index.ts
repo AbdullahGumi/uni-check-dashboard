@@ -8,10 +8,4 @@ const api = axios.create({
   },
 });
 
-const token = localStorage.getItem("token");
-// Set the Authorization header with the bearer token
-if (token) {
-  api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-}
-
 export default api;

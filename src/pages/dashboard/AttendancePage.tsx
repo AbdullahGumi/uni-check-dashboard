@@ -22,7 +22,7 @@ function AttendancePage() {
       fullName: "";
       registrationNumber: "";
       phoneNumber: "";
-      time: "";
+      createdAt: "";
     }[]
   >([]);
   const [selectedLecture, setSelectedLecture] = useState<{
@@ -55,18 +55,19 @@ function AttendancePage() {
       );
       setDropdownItems(objArr);
     });
-    getLectureAttendaceAPI(selectedLecture.value as string)
-      .then((res) => console.log("res=========>", res))
-      .catch((err) => console.log("first", err));
-    setAttendance(
-      Array(189).fill({
-        fullName: "abdullah Ahmad Gumi ",
-        phoneNumber: "08135524649",
-        registrationNumber: "u17cs1097",
-        time: "9:30AM",
-      })
-    );
   }, []);
+
+  const handleDropdownChange = (selectedOption: any) => {
+    setSelectedLecture({
+      label: selectedOption.label,
+      value: selectedOption.value,
+    });
+    getLectureAttendaceAPI(selectedOption.value as string)
+      .then((res) => {
+        setAttendance(res);
+      })
+      .catch((err) => console.log("error", err));
+  };
 
   return (
     <div className="flex flex-1  min-h-screen max-w-7xl p-5  ">
@@ -75,7 +76,7 @@ function AttendancePage() {
           <Dropdown
             helperText="Choose Lecture"
             label="Lecture"
-            setValue={setSelectedLecture}
+            onChange={handleDropdownChange}
             items={dropdownItems}
           />
           <CSVLink

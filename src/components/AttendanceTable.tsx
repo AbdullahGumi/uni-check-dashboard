@@ -35,7 +35,7 @@ interface IProps {
     fullName: string;
     registrationNumber: string;
     phoneNumber: string;
-    time: string;
+    createdAt: string;
   }[];
 }
 
@@ -126,6 +126,14 @@ const AttendanceTable = ({ attendance }: IProps) => {
                   return row;
               })
               .map((row, i) => {
+                const date = new Date(row.createdAt);
+                const hours = date.getHours();
+                const minutes = date.getMinutes();
+                const amOrPm = hours >= 12 ? "PM" : "AM";
+                const formattedHours = hours % 12 || 12;
+                const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
+                const formattedTime = `${formattedHours}:${formattedMinutes} ${amOrPm}`;
+
                 return (
                   <TableRow
                     key={i}
@@ -138,7 +146,7 @@ const AttendanceTable = ({ attendance }: IProps) => {
                     <CustomTableCell>{row.registrationNumber}</CustomTableCell>
                     <CustomTableCell>{row.phoneNumber}</CustomTableCell>
                     <CustomTableCell className="rounded-r-xl">
-                      {row.time}
+                      {formattedTime}
                     </CustomTableCell>
                   </TableRow>
                 );

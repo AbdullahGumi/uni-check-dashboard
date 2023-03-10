@@ -12,22 +12,36 @@ export const createLectureAPI = async (lecture: {
   courseCode: string;
   validityPeriod: string;
 }) => {
+  const token = localStorage.getItem("token");
+
   const response = await api.post<Ilecture>(
     "/api/lectures/create-lecture",
-    lecture
+    lecture,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
   );
   return response.data;
 };
 
 export const getAllAdminLecturesAPI = async () => {
-  const response = await api.get("/api/lectures/my-lectures");
+  const token = localStorage.getItem("token");
+
+  const response = await api.get("/api/lectures/my-lectures", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return response.data;
 };
 
 export const getLectureAttendaceAPI = async (lectureId: string) => {
-  const response = await api.get("/api/lectures/attendance", {
-    data: {
-      lectureId,
+  const token = localStorage.getItem("token");
+  const response = await api.get(`/api/lectures/attendance/${lectureId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
     },
   });
   return response.data;

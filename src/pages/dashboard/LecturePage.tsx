@@ -108,7 +108,12 @@ function LecturePage() {
               className="w-full mt-5"
               helperText="Specifies the duration for which the QR code remains scannable."
               label="Validity Period"
-              setValue={setSelectedHours}
+              onChange={(selectedOption: any) => {
+                setSelectedHours({
+                  label: selectedOption.label,
+                  value: selectedOption.value,
+                });
+              }}
               items={[
                 { label: "1 hour", value: 1 },
                 { label: "2 hours", value: 2 },

@@ -1,28 +1,20 @@
 import Select from "react-select";
-
-interface OptionType {
-  value: string | number;
-  label: string;
-}
+import { OptionType } from "../types";
 
 interface IProps {
   label: string;
-  setValue: (value: OptionType) => void;
+  onChange: (selectedOption: any) => void;
   items: OptionType[];
   helperText: string;
 }
 
 export default function Dropdown({
   label,
-  setValue,
+  onChange,
   items,
   helperText,
   ...otherProps
 }: IProps & React.HTMLAttributes<HTMLDivElement>) {
-  const handleChange = (selectedOption: any) => {
-    setValue({ label: selectedOption.label, value: selectedOption.value });
-  };
-
   return (
     <div className="flex flex-col" {...otherProps}>
       <Select
@@ -48,7 +40,7 @@ export default function Dropdown({
         }}
         placeholder={label}
         options={items}
-        onChange={handleChange}
+        onChange={onChange}
         components={{
           IndicatorSeparator: () => null,
         }}
