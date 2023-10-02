@@ -9,14 +9,16 @@ import Input from "../../components/Input";
 
 function LecturePage() {
   const [lectureId, setLectureId] = useState("");
-  const [courseCode, setCourseCode] = useState("");
-  const [courseName, setCourseName] = useState("");
-  const [validityPeriod, setvalidityPeriod] = useState("");
+  const [validityPeriod, setValidityPeriod] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [showQRCode, setShowQRCode] = useState(false);
 
-  const [selectedHours, setSelectedHours] = useState<{
+  const [selectedMinutes, setSelectedMinutes] = useState<{
+    value: string | number;
+    label: string;
+  }>({ value: 0, label: "" });
+  const [courseCode, setSelectedCourseCode] = useState<{
     value: string | number;
     label: string;
   }>({ value: 0, label: "" });
@@ -24,8 +26,8 @@ function LecturePage() {
   const createLecture = () => {
     setLoading(true);
     createLectureAPI({
-      courseName,
-      courseCode,
+      courseName: String(courseCode.value).split(":")[1].trim(),
+      courseCode: String(courseCode.value).split(":")[0].trim(),
       validityPeriod,
     })
       .then((res) => {
@@ -46,10 +48,10 @@ function LecturePage() {
 
   useEffect(() => {
     const date = new Date();
-    const hoursToAdd = selectedHours.value;
-    date.setHours(date.getHours() + Number(hoursToAdd));
-    setvalidityPeriod(date.toISOString());
-  }, [selectedHours.value]);
+    const minutesToAdd = selectedMinutes.value;
+    date.setMinutes(date.getMinutes() + Number(minutesToAdd));
+    setValidityPeriod(date.toISOString());
+  }, [selectedMinutes.value]);
 
   return (
     <div className="flex flex-1  min-h-screen max-w-7xl p-5  ">
@@ -67,15 +69,16 @@ function LecturePage() {
               />
               <p
                 id="qrText"
-                className="text-black text-sm font-semibold text-center mt-20"
+                className="text-black text-sm font-semibold text-center mt-20  "
               >
-                Course Name: {courseName} <br />({courseCode})
+                Course Name: {String(courseCode.value).split(":")[1].trim()}{" "}
+                <br />({String(courseCode.value).split(":")[0].trim()})
               </p>
               <p
                 id="qrText"
                 className="text-black text-sm font-semibold text-center mt-3"
               >
-                Scan time: {selectedHours.label}
+                Scan time: {selectedMinutes.label}
               </p>
             </div>
             <Button
@@ -90,38 +93,53 @@ function LecturePage() {
             <span className="text-black text-center text-2xl font-bold">
               Create Attendance QR Code
             </span>
-            <Input
+
+            <Dropdown
               className="w-full mt-5"
-              label="Course Name"
-              type="text"
-              value={courseName}
-              setValue={setCourseName}
-            />
-            <Input
-              className="w-full mt-5"
+              helperText=""
               label="Course Code"
-              type="text"
-              value={courseCode}
-              setValue={setCourseCode}
+              onChange={(selectedOption: any) => {
+                setSelectedCourseCode({
+                  label: selectedOption.label,
+                  value: selectedOption.value,
+                });
+              }}
+              items={[
+                {
+                  label: "COSC 401",
+                  value: "COSC 401:Algorithms and Complexity Analysis",
+                },
+                { label: "COSC 411", value: "COSC 411:Operating Systems" },
+                {
+                  label: "COSC 409",
+                  value:
+                    "COSC 409:Professional and Social Aspects of Computing ",
+                },
+                {
+                  label: "COSC 405",
+                  value: "COSC 405:Web Application Engineering II",
+                },
+                {
+                  label: "COSC 407",
+                  value: "COSC 407:Data Communications and Networks",
+                },
+                { label: "COSC 403", value: "COSC 403:Software Engineering" },
+              ]}
             />
             <Dropdown
               className="w-full mt-5"
               helperText="Specifies the duration for which the QR code remains scannable."
               label="Validity Period"
               onChange={(selectedOption: any) => {
-                setSelectedHours({
+                setSelectedMinutes({
                   label: selectedOption.label,
                   value: selectedOption.value,
                 });
               }}
-              items={[
-                { label: "1 hour", value: 1 },
-                { label: "2 hours", value: 2 },
-                { label: "3 hours", value: 3 },
-                { label: "4 hours", value: 4 },
-                { label: "5 hours", value: 5 },
-                { label: "6 hours", value: 6 },
-              ]}
+              items={Array.from({ length: 120 }, (_, index) => ({
+                label: `${index + 1} minute${index === 0 ? "" : "s"}`,
+                value: index + 1,
+              }))}
             />
             <Button
               disabled={loading}
